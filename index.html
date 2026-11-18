@@ -4441,6 +4441,29 @@ function initTouchHandlers() {
     });
 }
 
+window.switchLobbyTab = function(tabName) {
+    ['play', 'inventory', 'settings'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('active', t === tabName);
+        document.getElementById(`lobby-view-${t}`).classList.toggle('hidden', t !== tabName);
+    });
+    if (tabName === 'inventory') {
+        renderInventoryGrid();
+    }
+};
+
+window.setCrosshairColor = function(hex) {
+    state.crosshairColor = hex;
+    ['ch-dot', 'ch-top', 'ch-bottom', 'ch-left', 'ch-right'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.backgroundColor = hex;
+    });
+};
+
+document.getElementById('sens-slider').addEventListener('input', (e) => {
+    state.sensitivity = parseFloat(e.target.value);
+    document.getElementById('sens-val').textContent = state.sensitivity.toFixed(1);
+});
+
 window.selectMode = function(mode) {
     state.mode = mode;
     ['defuse', 'dm', 'training'].forEach(m => document.getElementById(`mode-${m}`).classList.toggle('active', m === mode));
